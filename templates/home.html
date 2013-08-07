@@ -1,0 +1,120 @@
+<html>
+	<head>
+		{% if header %}
+		<title> {{header}} - {{user.nickname}}'s microblog </title>
+		{% else %}
+		<title> Welcome to the posts in your microblog! </title>
+		{% endif %}
+		
+		<style>
+			.Name_of_blog {
+				font-family: Courier;
+				color: red;
+				/*float: left;*/
+				}
+
+			#YO {
+				font-weight: bold;
+				color: #CC00FF;
+			}
+
+			.Subtitle {
+				color: green;
+				font-weight: bold;
+				font-size: 20px;
+				/*float: left;*/
+			}
+
+		
+			#centered {
+				text-align: center;
+			}
+
+			#user {
+				font-size: 20px;
+				font-family: Impact;
+				color: purple;
+				/*float: right;*/
+			}
+
+			#Pusher_Cat {
+				border-width: 10px;
+				color: yellow;
+				border: solid;
+			}
+
+			.top_line_info {
+				font-weight: bold;
+				/*background: pink;*/
+
+			}
+
+			.single_entry {
+				border: solid 5px black;
+				margin: 10px;
+				/*padding: 5px;*/
+				width: auto;
+				height: 150px;
+				float: left;
+				overflow: auto;
+				background: #CCFFFF;
+				display: inline;
+
+			}
+
+			#title {
+				background: #FF3366 ;
+			}
+
+			#author {
+				background: #CCFF33;
+			}
+
+			/*body {
+				background: #A3A3A3;
+			}*/
+		</style>
+	</head>
+
+	<body>
+		{% extends "base.html" %}
+
+		{% block content %}
+		<div id="centered">
+		<p id="user">Oh hai, {{user.nickname}}!</p>
+			
+		<h1 class="Name_of_Blog"> {{topics.feed.title}} </h1>
+		<br /> 
+		<p> <img src="{{topics.feed.image.url}}" /></p>
+		<br />
+		<div class="Subtitle"> {{topics.feed.subtitle}} </div>
+		
+		<br /> 
+
+		<div class="entry_block">
+			{% for entry in topics.entries %}
+
+			<div class="single_entry">
+				<div class="top_line_info">
+
+				<div id="title"> Title: {{entry.title}} </div>
+				
+				<div id="author"> By: {{entry.author}} <br /></div>
+				
+				</div>
+
+				<p> Date: {{entry.published}} </p> 
+				<p> ID: {{entry.id}} </p> 
+				<p> Description: <br /> <br />{{entry.description}} <br /> <br /></p>
+				<p> Link: {{entry.description.link}} </p> <br />
+				<p id="YO"> Content Value: {{entry.content.value}} <br /> <br /></p>
+				<p> <a href="{{entry.comments}}"> Comments </a> <br /> <br /></p>
+				<p> Media: <img src = "{{entry.media}}"</p>
+
+			</div>
+
+			{% endfor %}
+		</div>
+		{% endblock %}
+	</body>
+</html>

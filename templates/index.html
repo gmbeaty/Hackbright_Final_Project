@@ -1,0 +1,34 @@
+<html>
+	<head>
+		<!-- This is jinja and accesses the info in views.py to get title and user info --> 
+		{% if title %}
+		<title> {{title}} - {{user.nickname}}'s microblog </title>
+		{% else %}
+		<title> Welcome to the microblog! </title>
+		{% endif %}
+		
+
+		<style>
+			#index_main {
+				margin: 0px 350px;
+			}
+
+			h1, h2 {
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+	<!-- This is jinja and accesses the info in views.py to get title and user info as well as the base.html for the buttons and routing in the upper left --> 
+		{% extends "base.html" %}
+		{% block content %}
+		<div id="index_main">
+		<h1>Hello, {{user.nickname}}!</h1>
+		<img src="http://i.imgur.com/XZr1Ndn.gif" />
+		<h2>You are <a href="/home">{{title}}</a></h2>
+		</div>
+		{% endblock %}
+	</body>
+</html>
+

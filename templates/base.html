@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<style>
+		.Top_Line {
+			border-width: 2px;
+			border-style: outset;
+			width: 90px;
+			font-family: Verdana;
+			background: #FFFFCC;
+			display: inline;
+			padding: 2px 5px;
+			/*border-radius: 5px;*/
+
+		}
+
+		#Login {
+			font-weight: bold:;			
+			
+		}
+
+		.link:visited {
+			font-style: bold;
+			color: #FF0099
+		}
+
+		.link:hover {
+			font-style: italic;
+			color: #00ffcc;
+		}
+
+		#heading {
+			/*background: #66ccff;*/
+			position: fixed;
+			/*padding: 10px;*/
+			/*z-index: 100;
+			width: 300px;*/
+			font-size: 12px;
+			float: left;
+			/*border: 2px red solid;*/
+
+		}
+
+		body {
+			/*background: #FF0000;*/
+		}
+		</style>
+	</head>
+
+
+	<body>
+		<div id="heading">
+		<div class="Top_Line"><a id="Login">LOG-IN: </a> <a href="/login" class="link"> log-in</a></div> 
+		<div class="Top_Line">WELCOME: <a href="/" class="link"> yo! </a></div>
+		<div class="Top_Line">POSTS: <a href="/home" class="link">home</a></div>
+		</div>
+		<hr>
+		{% with messages = get_flashed_messages() %}
+		{% if messages %}
+		<ul>
+		{% for message in messages %}
+			<li>{{ message }} </li>
+		{% endfor %}
+		</ul>
+		{% endif %}
+		{% endwith %}
+		
+		{% block content %}{% endblock %}
+	</body>
+</html>
+
