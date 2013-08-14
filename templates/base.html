@@ -52,17 +52,18 @@
 		<div class="Top_Line"><a id="Login">LOG-IN: </a> <a href="/login" class="link"> log-in</a></div> 
 		<div class="Top_Line">WELCOME: <a href="/" class="link"> yo! </a></div>
 		<div class="Top_Line">POSTS: <a href="/home" class="link">home</a></div>
+		<div class="Top_Line"> LOGOUT: <a href="/logout" class="link">logout</a></div>
 		</div>
 		<hr>
-		{% with messages = get_flashed_messages() %}
-		{% if messages %}
-		<ul>
+	<!-- 	{% with messages = get_flashed_messages() %}
+		{% if messages %} -->
+		<!-- <ul>
 		{% for message in messages %}
 			<li>{{ message }} </li>
 		{% endfor %}
 		</ul>
 		{% endif %}
-		{% endwith %}
+		{% endwith %} -->
 		
 		{% block content %}{% endblock %}
 	</body>

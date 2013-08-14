@@ -1,7 +1,8 @@
 <html>
 	<head>
+		<!-- <base target="_blank"> -->
 		{% if header %}
-		<title> {{header}} - {{user.nickname}}'s microblog </title>
+		<title> {{header}} - microblog </title>
 		{% else %}
 		<title> Welcome to the posts in your microblog! </title>
 		{% endif %}
@@ -54,11 +55,10 @@
 				margin: 10px;
 				/*padding: 5px;*/
 				width: auto;
-				height: 150px;
-				float: left;
+				/*height: 150px;*/
+				float: center;
 				overflow: auto;
 				background: #CCFFFF;
-				display: inline;
 
 			}
 
@@ -78,43 +78,42 @@
 
 	<body>
 		{% extends "base.html" %}
-
 		{% block content %}
 		<div id="centered">
-		<p id="user">Oh hai, {{user.nickname}}!</p>
-			
-		<h1 class="Name_of_Blog"> {{topics.feed.title}} </h1>
-		<br /> 
-		<p> <img src="{{topics.feed.image.url}}" /></p>
-		<br />
-		<div class="Subtitle"> {{topics.feed.subtitle}} </div>
+		<p id="user">Oh hai, {{user.email}}!</p>
+		{% for feed in feed_list %}
+			<h1 class="Name_of_Blog"> {{feed.feed_title}} </h1>
+			<br /> 
+
+			{% if feed.feed_image %}
+			<p> <img src="{{feed.feed_image.url}}" /></p>
+			<br />
+			{% endif %}
+
+			<div class="Subtitle"> {{feed.feed_subtitle}} </div>
 		
-		<br /> 
-
+		<br />
 		<div class="entry_block">
-			{% for entry in topics.entries %}
-
+			{% for post in feed.posts %}
 			<div class="single_entry">
 				<div class="top_line_info">
 
-				<div id="title"> Title: {{entry.title}} </div>
+				<div id="title"> Title: {{post.title}} </div>
 				
-				<div id="author"> By: {{entry.author}} <br /></div>
-				
+				{% if post.author %}
+				<div id="author"> By: {{post.author}} <br /></div>
+				{% endif %}
+
 				</div>
 
-				<p> Date: {{entry.published}} </p> 
-				<p> ID: {{entry.id}} </p> 
-				<p> Description: <br /> <br />{{entry.description}} <br /> <br /></p>
-				<p> Link: {{entry.description.link}} </p> <br />
-				<p id="YO"> Content Value: {{entry.content.value}} <br /> <br /></p>
-				<p> <a href="{{entry.comments}}"> Comments </a> <br /> <br /></p>
-				<p> Media: <img src = "{{entry.media}}"</p>
+				<p> Date: {{post.timestamp}} </p> 
+				<p> Description: <br /> <br />{{post.content|safe}} <br /> <br /></p>
 
 			</div>
 
 			{% endfor %}
 		</div>
+		{% endfor %}
 		{% endblock %}
 	</body>
 </html>

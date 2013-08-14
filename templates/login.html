@@ -1,48 +1,72 @@
 <!-- extend from base layout -->
-<head>
-	<style>
-		
-	</style>
+<html>
+	<head>
+		<style>
+			.Login_page {
+				text-align: center;
+				margin: 100px;
+				font-family: Courier;
+			}
 
-</head>
+			.inputs {
+				/*display: inline;*/
+				font-size: 20px;
+			}
 
-<body>
-{% extends "base.html" %}
+			#sign_in {
+				border: solid 4px black;
+				border-style: outset;
+				margin: 5px;
+				padding: 5px;
+				width: 150px;
+				background: white; 
+			}
 
-{% block content %}
-<script type="text/javascript">
-function set_openid(openid, pr)
-{
-	u = openid.search('<username>')
-	if (u != -1) {
-		//openid requires username
-		user = prompt('Enter your ' + pr + ' username: ')
-		openid = openid.substr(0, u) + user
-	}
-	form = document.forms['login'];
-	form.elements['openid'].value = openid 
-}
-</script>
+			#S_align {
+				/*Need to make this actually center*/
+				margin: 0px 395px;
+			}
 
-<h1>Sign In</h1>
-<form action="" method="post" name="login">
-	{{form.hidden_tag()}}
-	<p>	
-		Please enter your OpenID:<br>
-		{{form.openid(size=80)}}<br>
-		<!-- renders messages as errors based on our set validators -->
-		{% for error in form.errors.openid %}
-		<!-- display the error message in red -->
-		<span style="color: red;">[{{error}}]</span>
-		{% endfor %}</br>
-		| {% for pr in providers %}
-		<a href="javascript:set_openid('{{pr.url}}', '{{pr.name}}');">{{pr.name}}</a> |
-		{% endfor %}
-	</p>
+			h1 {
+				font-size: 30px;
+				font-family: Monaco;
+				border: 5px;
+				color: #FFFF44;
+				font-weight: bold;
+				position: relative;
+			}
 
-	<p>{{form.remember_me}} Remember Me</p>
-	<p> <input type="submit" value="Sign In"></p>
-</form>
-{% endblock %} 
-</body>
+			body {
+				background: #ff5544;
+			}
+		</style>
+
+	</head>
+
+	<body>
+
+		<div class="Login_Page">
+		<h1> Welcome to Rebecca's Simple Syndication Reader </h1> <br /> 
+
+		<div id="S_align"><h2 id="sign_in">Sign In</h2></div>
+			<form action="/login" method="POST" name= "login">
+			{{form.hidden_tag()}}
+
+			<!--     # include this every time you do a form -->
+			    {% from "_formhelper.html" import render_field %}           
+			    <form meth=post action="/login">
+			 <!-- begin error check -->
+
+			    <!-- Email and Password-->
+			   	<div class="inputs"> Email:
+					{{render_field(form.email)}} </div>
+				<div class="inputs"> Password:<br>
+					{{render_field(form.password)}}  </div>
+			    <p> Remember Me: {{form.remember_me}} </p>
+				<p> <input type="submit" value="SUBMIT"></p>
+			  	
+			</form>
+
+		</div>
+	</body>
 </html>

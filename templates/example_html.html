@@ -1,0 +1,43 @@
+<th>{{form.firstname.description}}</th>
+        <th>{{form.lastname.description}}</th>
+        <th>{{form.dob.description}} </th>
+
+          	# render_field is an empty field for people to send to DB
+            <td>{{render_field(form.firstname)}} </td>
+            <td>{{render_field(form.lastname)}}</td>
+            <td>{{render_field(form.dob)}}</td>
+        </tr> 
+
+        <!-- OLD HTML for reference -->
+<!-- <form action="" method="post" name="login">
+	{{form.hidden_tag()}}
+	<p>	
+		
+		<!-- renders messages as errors based on our set validators -->
+		{% for error in form.errors.openid %}
+		<!-- display the error message in red -->
+	<!-- 	<span style="color: white;">[{{error}}]</span>
+		{% endfor %}</br> <br>
+		
+		<div class="inputs"> Password:<br>
+		{{form.openid(size=64)}} </div>
+		{% for error in form.errors.openid %}
+		<!-- display the error message in red -->
+		<!-- <span style="color: white;">[{{error}}]</span>
+		{% endfor %}</br> 
+	</p> --> --> -->
+
+
+	// <script type="text/javascript">
+// function set_openid(openid, pr)
+// {
+// 	u = openid.search('<username>')
+// 	if (u != -1) {
+// 		//openid requires username
+// 		user = prompt('Enter your ' + pr + ' username: ')
+// 		openid = openid.substr(0, u) + user
+// 	}
+// 	form = document.forms['login'];
+// 	form.elements['openid'].value = openid 
+// }
+// </script>

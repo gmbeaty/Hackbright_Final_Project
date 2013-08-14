@@ -2,7 +2,7 @@
 	<head>
 		<!-- This is jinja and accesses the info in views.py to get title and user info --> 
 		{% if title %}
-		<title> {{title}} - {{user.nickname}}'s microblog </title>
+		<title> {{title}} - microblog </title>
 		{% else %}
 		<title> Welcome to the microblog! </title>
 		{% endif %}
@@ -13,21 +13,37 @@
 				margin: 0px 350px;
 			}
 
-			h1, h2 {
+			h1, h2, h3 {
 				text-align: center;
 			}
 		</style>
 	</head>
 
 	<body>
+
 	<!-- This is jinja and accesses the info in views.py to get title and user info as well as the base.html for the buttons and routing in the upper left --> 
 		{% extends "base.html" %}
 		{% block content %}
 		<div id="index_main">
-		<h1>Hello, {{user.nickname}}!</h1>
+		<p>Oh hai, {{user.email}}!</p>
 		<img src="http://i.imgur.com/XZr1Ndn.gif" />
 		<h2>You are <a href="/home">{{title}}</a></h2>
-		</div>
+
+		<form action="/" method="POST" name= "url_submit">
+			{{form.hidden_tag()}}
+
+			<!--     # include this every time you do a form -->
+			    {% from "_formhelper.html" import render_field %}           
+			    <p> Submit URL: {{render_field(form.url)}} </p>
+
+				<p> <input type="submit" value="SUBMIT"></p>
+			  	
+		</form>
+		{% for name in feed_name %}
+		<h3><a href="/home?feed_name={{name.Name}}"> {{name.Name}}</a></h3>
+		{% endfor %}
+
+
 		{% endblock %}
 	</body>
 </html>
