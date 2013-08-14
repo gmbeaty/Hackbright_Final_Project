@@ -57,8 +57,9 @@
 				width: auto;
 				/*height: 150px;*/
 				float: center;
-				overflow: auto;
+				overflow: auto; 
 				background: #CCFFFF;
+				font-family: Courier;
 
 			}
 
@@ -70,9 +71,7 @@
 				background: #CCFF33;
 			}
 
-			/*body {
-				background: #A3A3A3;
-			}*/
+			
 		</style>
 	</head>
 
@@ -94,7 +93,7 @@
 		
 		<br />
 		<div class="entry_block">
-			{% for post in feed.posts %}
+			{% for post in feed.posts |sort(attribute='timestamp', reverse=True) %}
 			<div class="single_entry">
 				<div class="top_line_info">
 

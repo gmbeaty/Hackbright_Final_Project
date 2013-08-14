@@ -4,12 +4,23 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
 from sqlalchemy import ForeignKey
 import feedparser 
+import datetime 
 
 engine = create_engine("sqlite:///rss.db", echo=True)
 session = scoped_session(sessionmaker(bind=engine,autocommit=False,autoflush=False))
 
 Base = declarative_base()
 Base.query = session.query_property()
+
+# Convert datetime into the format to use in the database, for example:
+# 2013-02-09 14:06:33
+
+def published_parsed_to_db_format(tup):
+    d = datetime.datetime(*(tup[0:6]))
+    #two equivalent ways to format it:
+    #dStr = d.isoformat(' ')
+    #or
+    return d.strftime('%Y-%m-%d %H:%M:%S')
 
 ### Class declarations go here
 
@@ -65,11 +76,13 @@ class Feed(Base):
         all_posts = feedparser.parse(self.feed_link)
 
         for post in all_posts.entries:
+            timestamp = published_parsed_to_db_format(post.published_parsed)
+            
             if hasattr(post, "author"):
-                single_post = Post(title = post.title, author = post.author, content = post.description, timestamp = post.published)
+                single_post = Post(title = post.title, author = post.author, content = post.description, timestamp = timestamp)
                 
             else:
-                single_post = Post(title = post.title, content = post.description, timestamp = post.published)
+                single_post = Post(title = post.title, content = post.description, timestamp = timestamp)
 
             # p_url = Post(url = post.description.link)
             # self.posts.append(p_url)

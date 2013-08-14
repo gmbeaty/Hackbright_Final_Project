@@ -27,7 +27,7 @@ while feed_info is not None:
 			for entry in feed_data.entries:
 				# insert new posts into post table as appropriate based on comparison
 				if entry.title not in post_set:
-					post = Post(feed_id=feed_object.feed_id, title = entry.title, author = entry.author, content = entry.description, timestamp = entry.published)					
+					post = make_post(entry, feed_object.feed_id)
 					session.add(post)
 				else: 
 					break
