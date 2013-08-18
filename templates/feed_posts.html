@@ -6,7 +6,7 @@
 		{% else %}
 		<title> Welcome to the posts in your microblog! </title>
 		{% endif %}
-
+		
 		<style>
 			.Name_of_blog {
 				font-family: Verdana;
@@ -81,8 +81,9 @@
 		<p id="user">Oh hai, {{user.user_name}}!</p>
 		
 		<br />
+
 		<div class="entry_block">
-			{% for post in post_list|sort(attribute='timestamp', reverse=True) %}
+			{% for post in all_post_info|sort(attribute='timestamp', reverse=True) %}
 			<div class="single_entry">
 				<div class="top_line_info">
 				
@@ -103,11 +104,12 @@
 				</div>
 
 				<p> Description: <br /> <br />{{post.content|safe}} <br /> <br /></p>
-				<p><a href="{{post.url}}">VIEW FULL POST</a></p>
 
 			</div>
 
 			{% endfor %}
+
+			<div><a href="/remove_feed/{{feed_id}}">Remove this feed? </a></div>
 		</div>
 		
 		{% endblock %}

@@ -4,7 +4,7 @@
 		.Top_Line {
 			border-width: 2px;
 			border-style: outset;
-			width: 90px;
+			width: 70px;
 			font-family: Verdana;
 			background: #FFFFCC;
 			display: inline;
@@ -48,12 +48,16 @@
 
 
 	<body>
+
 		<div id="heading">
-		<div class="Top_Line"><a id="Login">LOG-IN: </a> <a href="/login" class="link"> log-in</a></div> 
-		<div class="Top_Line">WELCOME: <a href="/" class="link"> yo! </a></div>
-		<div class="Top_Line">POSTS: <a href="/home" class="link">home</a></div>
+		<!-- <div class="Top_Line"><a id="Login">LOG-IN: </a> <a href="/login" class="link"> log-in</a></div>  -->
+		<div class="Top_Line">ALL POSTS: <a href="/home" class="link">home page</a></div>
+		<div class="Top_Line">ALL FEEDS: <a href="/show_me_da_feeds" class="link"> go to the feeds!</a></div>
+		<div class="Top_Line">ADD DA FEED: <a href="/" class="link"> go to there! </a></div>
 		<div class="Top_Line"> LOGOUT: <a href="/logout" class="link">logout</a></div>
+		
 		</div>
+
 		<hr>
 	<!-- 	{% with messages = get_flashed_messages() %}
 		{% if messages %} -->

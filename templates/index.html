@@ -16,6 +16,23 @@
 			h1, h2, h3 {
 				text-align: center;
 			}
+
+			#user {
+				font-size: 20px;
+				font-family: Impact;
+				color: purple;
+				text-align: center;
+			}
+
+			.Submit {
+				display: inline;
+				text-align: center;
+			}
+
+			#submitText {
+				text-align: center;
+				display: inline;
+			}
 		</style>
 	</head>
 
@@ -25,7 +42,7 @@
 		{% extends "base.html" %}
 		{% block content %}
 		<div id="index_main">
-		<p>Oh hai, {{user.email}}!</p>
+		<p id="user">Would you like more feeds {{user.user_name}}??</p>
 		<img src="http://i.imgur.com/XZr1Ndn.gif" />
 		<h2>You are <a href="/home">{{title}}</a></h2>
 
@@ -34,9 +51,7 @@
 
 			<!--     # include this every time you do a form -->
 			    {% from "_formhelper.html" import render_field %}           
-			    <p> Submit URL: {{render_field(form.url)}} </p>
-
-				<p> <input type="submit" value="SUBMIT"></p>
+			    <div class="Submit"> <div id="submitText">Submit URL:<div> {{render_field(form.url)}} <input type="submit" value="SUBMIT"></div>
 			  	
 		</form>
 		{% for name in feed_name %}

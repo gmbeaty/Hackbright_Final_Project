@@ -1,0 +1,49 @@
+<html>
+	<head>
+		<!-- <base target="_blank"> -->
+		{% if header %}
+		<title> {{header}} - microblog </title>
+		{% else %}
+		<title> All the feeds! </title>
+		{% endif %}
+		
+		<style>
+			.Name_of_blog {
+				font-family: Verdana;
+				color: red;
+				font-size: 20px;
+				}
+
+		#centered {
+				text-align: center;
+			}
+
+			#user {
+				font-size: 20px;
+				font-family: Impact;
+				color: purple;
+				/*float: right;*/
+			}
+
+			
+		</style>
+	</head>
+
+	<body>
+		{% extends "base.html" %}
+		{% block content %}
+		<div id="centered">
+		<p id="user">: : : {{user.user_name}}'s feeds : : :</p>
+		
+		<br />
+		<div class="entry_block">
+			{% for feed in feed_list %}
+				<h1 class="Name_of_Blog"> <a href="/feed/{{feed.feed_id}}"> {{feed.feed_title}} </a></h1>
+
+		
+
+			{% endfor %}
+		</div>
+		{% endblock %}
+	</body>
+</html>

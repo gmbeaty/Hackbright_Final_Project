@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<style>
-			.Login_page {
+			.New_User_page {
 				text-align: center;
 				margin: 100px;
 				font-family: Courier;
@@ -18,7 +18,7 @@
 				border-style: outset;
 				margin: 5px;
 				padding: 5px;
-				width: 150px;
+				width: 250px;
 				background: white;
 				text-align: center; 
 			}
@@ -46,28 +46,30 @@
 
 	<body>
 
-		<div class="Login_Page">
-		<h1> Welcome to Rebecca's Simple Syndication Reader </h1> <br /> 
-
-		<h2 id="sign_in">Sign In</h2>
-			<form action="/login" method="POST" name= "login">
+		<div class="New_User_Page">
+		<h1> Fill out the below sections </h1> <br /> 
+		<h2 id="sign_in">Your Information</h2>
+			<form action="/new_user_registration" method="POST" name= "new_user">
 			{{form.hidden_tag()}}
 
 			<!--     # include this every time you do a form -->
-			    {% from "_formhelper.html" import render_field %}           
-			    <form meth=post action="/login">
-			 <!-- begin error check -->
+			    {% from "_formhelper.html" import render_field %}          
+			    <form meth=post action="/new_user_registration">
 
 			    <!-- Email and Password-->
+			   	<div class="inputs"> Username:
+					{{render_field(form.username)}} </div>
 			   	<div class="inputs"> Email:
 					{{render_field(form.email)}} </div>
 				<div class="inputs"> Password:<br>
 					{{render_field(form.password)}}  </div>
-			    <p> Remember Me: {{form.remember_me}} </p>
+			  
+			  	<div class="inputs"> Confirm password:<br>
+					{{render_field(form.confirm)}}  </div>
 				<p> <input type="submit" value="SUBMIT"></p>
-			 
-			</form>
-			<div id="sign_in"><a href="/new_user_registration" class="link">Sign-up for R squared S squared </a></div>
+			  	
+				</form>
+
 		</div>
 	</body>
 </html>
