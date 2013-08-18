@@ -4,7 +4,7 @@ import SQL_Alchemy
 from wtforms import TextField
 
 class LoginForm(Form):
-    email = TextField('Email',
+    email = TextField('Email Address',
                       [validators.Email(message= (u'Invalid email address.'))])
     password = PasswordField('Password', [validators.Required(), 
                              validators.length(min=6, max=25)])
@@ -15,15 +15,11 @@ class URL_Submit(Form):
 	url = TextField('URL', [validators.URL(require_tld=True, message= (u'[Not a valid URL]'))])
 
 ### Creating a new user
-# class RegistrationForm(Form):
-#     username = TextField('Username', [validators.Length(min=4, max=25)])
-#     email = TextField('Email Address', [validators.Length(min=6, max=35)])
-#     password = PasswordField('New Password', [
-#         validators.Required(),
-#         validators.EqualTo('confirm', message='Passwords must match')
-#     ])
-#     confirm = PasswordField('Repeat Password')
-#     accept_tos = BooleanField('I accept the TOS', [validators.Required()])
+class RegistrationForm(Form):
+    username = TextField('Username', [validators.Length(min=4, max=25)])
+    email = TextField('Email Address', [validators.Email(message= (u'Invalid email address.'))])
+    password = PasswordField('New Password', [validators.Required(), validators.EqualTo('confirm', message='Passwords must match')])  
+    confirm = PasswordField('Repeat Password')
 
 ### END Creating a new user
 
