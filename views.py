@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, url_for, flash, redirect, g, 
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
 from forms import LoginForm, URL_Submit, RegistrationForm
 import os
-import rsslib2 
 from sys import argv
 import feedparser
 from lxml import etree, html 
@@ -19,12 +18,6 @@ from dateutil import parser as du_parser
 app = Flask(__name__)
 app.config.from_object('config')
 
-# def datetime_convert(timestamp_value):
-#     time_broken = gmtime(timestamp_value)
-#     return datetime.fromtimestamp(calendar.timegm(time_broken), tz=pytz.utc)
-
-# app.jinja_env.filters["make_time_human_friendly"] = datetime_convert
-
 ### Start LoginHandler settings
 
 lm = LoginManager()
@@ -38,12 +31,9 @@ def load_user(user_id):
 @app.before_request
 def before_request():
     # g = global and makes that user the global current user
-    # do I need to reverse this?
     g.user = current_user
    
 ### End LoginHandler setting
-
-# edit this to have users be retrieved from DB
 
 @app.route('/favicon.ico')
 def favicon():
@@ -64,7 +54,6 @@ def login():
                 
         if user is not None:
            login_user(user)
-           flash("Welcome")
 
         else:
            flash("[Invalid login]")
@@ -80,12 +69,11 @@ def logout():
     return redirect('/login')
 
 #make a new user in the DB 
-# This is not currently accessing the database
 @app.route("/new_user_registration", methods=['GET', 'POST'])
 def make_user():
-    # form = RegistrationForm()
     
     form = RegistrationForm()
+
     if form.validate_on_submit():
         user = User(
         user_name = form.username.data,
@@ -124,9 +112,7 @@ def display_user_front_page():
 def display_user_front_page():
     user = g.user
     form = URL_Submit()
-    # looking for feed in url
-    # submitted_url = urllib2.urlopen(url).read()
-    # submitted_url.xpath("//link[@rel='alternate']/@href")[0])
+
     # confirms the data submitted is a url
     if form.validate_on_submit(): 
         url = form.url.data
@@ -136,19 +122,8 @@ def display_user_front_page():
         
         feed = Feed.query.filter_by(feed_link=feed_url).first()
 
-        """ 
-        Trying to make the USER_Feed table not do dupes 
-        But not working
-
-        uf_id = feed.feed_id
-        user_feed_check = User_Feed.query.filter_by(feed_id=uf_id).first()
-        the_uf_id = user_feed_check.feed_id
-
-        """
         # checks if feed url already exists in db and adds info if not
         if feed is None:
-
-            #need to add functions that associate the inputed feed with the current user
 
             feed = Feed(feed_link = feed_url)
             feed.populate_metadata()
@@ -189,31 +164,14 @@ def home():
     for feed in user_feeds:
         feed_id = feed.feed_id
         feed_id_list.append(feed_id) 
-        # print "THIS IS A FEED_ID", feed_id
 
     # retireiving the all the feed objects based on the feed_ids from the current user
     user_feed_objects = Feed.query.filter(Feed.feed_id.in_(feed_id_list)).all()
-    # print "USER FEED OBJECTS", user_feed_objects
 
     #sort the posts in python then pass into template to be rendered
     user_feed_posts = Post.query.filter(Post.feed_id.in_(feed_id_list)).all()
-    # user_posts = Post.query.filter_by(Post.post_id.in_(user_feed_posts))
 
-    # print "USER POSTS", user_feed_posts
-    # print "USER POST TYPE", type(user_feed_posts)
-
-    # user_post = Post.query.filter(Post.feed_id.in_(feed_id_list))
     user_post_info = sorted(user_feed_posts, key=attrgetter('timestamp'), reverse=False)
-    # print input_path
-    # encoded = input_path.encode('UTF-8')
-    # print encoded
-    # feed = rsslib2.rss_url_to_dict(encoded)
-
-    # short_posts = []
-    # for post in user_post_info:
-    #     text = truncate_text(post.description)
-    #     new_post = ...
-    #     short_posts.append(new_post)
 
     return render_template('home.html', 
             header= 'All zee posts',
@@ -229,15 +187,14 @@ def all_da_feeds_seperated():
     this_user = user.user_id
     
     user_info = User_Feed.query.filter_by(user_id=this_user).all()
+
     # creating an empty list to house all the feed_ids of the current_user 
-   
     feed_list = []
+
     # looping through the list of the User_Feed Objects to access just the feed_ids
     for feed in user_info:
         feed_id = feed.feed_id
         feed_list.append(feed_id)
-
-    # import pdb; pdb.set_trace()
     
     # retireiving the all the feed objects based on the feed_ids from the current user
     user_feed_objects = Feed.query.filter(Feed.feed_id.in_(feed_list)).all()
@@ -263,12 +220,6 @@ def remove_feed(feed_id=None):
     this_user = user.user_id
 
     feed_delete = User_Feed.query.filter_by(feed_id=feed_id, user_id=this_user).all()
-    
-
-    # the_feed_obj = []
-    # for user_feed_object in feed_delete:
-    #     get_the_feed = user_feed_object.feed_id
-    #     the_feed_obj.append(get_the_feed)
 
     feed_list = []
     for feed_d in feed_delete:
