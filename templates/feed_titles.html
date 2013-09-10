@@ -1,31 +1,82 @@
 <html>
 	<head>
 		<!-- <base target="_blank"> -->
-		{% if header %}
-		<title> {{header}} - microblog </title>
-		{% else %}
-		<title> All the feeds! </title>
-		{% endif %}
+		<title> All {{user.user_name}}'s Feeds </title>
 		
 		<style>
-			.Name_of_blog {
-				font-family: Verdana;
-				color: red;
-				font-size: 20px;
-				}
-
-		#centered {
+			
+			#centered {
 				text-align: center;
+
 			}
 
 			#user {
 				font-size: 20px;
-				font-family: Impact;
-				color: purple;
-				/*float: right;*/
+				color: black;
+				border: solid 4px black;
+				border-style: outset;
+				margin: auto;	
+				padding: 7px;
+				width: 450px;
+				background: white;
+				text-align: center; 
+				font-size: 25px;
+				font-family: Monaco;
+				font-weight: bold;
+				position: relative;
+			
 			}
 
-			
+			body {
+				background: #ff5544;
+			}
+
+			#input_box {
+				border: solid 4px black;
+				border-style: outset;
+				margin: 8px 0px;	
+				padding: 10px;
+				width: 275px;
+				height: 40px;
+				background: white;
+				text-align: center; 
+				background: #CCFFFF;
+				font-family: Courier;
+				font-size: 18px;
+				display: inline-block;
+				text-align: center;
+			}
+
+			#input_box:hover {
+				background: white;
+			} 
+
+			.feed_link:visited {
+				font-style: bold;
+				color: black;
+				text-decoration: none;
+			}
+
+			.feed_link {
+				font-style: bold;
+				color: black;
+				text-decoration: none;
+			}
+
+			.feed_link:hover {
+				color: #ff5544;
+			}
+
+			#da_text {
+				margin: auto;
+				font-weight: bold;
+				text-align: center;
+			}
+
+			#da_text:hover {
+				color: #ff5544;
+			}
+
 		</style>
 	</head>
 
@@ -33,17 +84,18 @@
 		{% extends "base.html" %}
 		{% block content %}
 		<div id="centered">
-		<p id="user">: : : {{user.user_name}}'s feeds : : :</p>
+		<br />
+		<p id="user"> {{user.user_name}}'s feeds </p>
 		
 		<br />
-		<div class="entry_block">
-			{% for feed in feed_list %}
-				<h1 class="Name_of_Blog"> <a href="/feed/{{feed.feed_id}}"> {{feed.feed_title}} </a></h1>
-
-		
-
+			
+			{% for feed in feed_list|sort(attribute='feed_title')  %} 
+				<a href="/feed/{{feed.feed_id}}" class="feed_link">
+				<div id="input_box">
+				 <div id="da_text">{{feed.feed_title}} </div></div></a>
+				<br />
 			{% endfor %}
-		</div>
+			
 		{% endblock %}
 	</body>
 </html>

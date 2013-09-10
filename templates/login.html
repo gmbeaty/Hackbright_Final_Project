@@ -1,45 +1,97 @@
 <!-- extend from base layout -->
 <html>
 	<head>
+	<title> Log-in to R2S2 </title>
 		<style>
 			.Login_page {
 				text-align: center;
-				margin: 100px;
+				margin: 50px;
 				font-family: Courier;
 			}
 
 			.inputs {
-				/*display: inline;*/
+				display: inline;
 				font-size: 20px;
+				margin: 10px;
+				float: left;
 			}
 
-			#sign_in {
+			.sign_in {
 				border: solid 4px black;
 				border-style: outset;
-				margin: 5px;
+				margin: auto;	
 				padding: 5px;
 				width: 150px;
 				background: white;
 				text-align: center; 
 			}
 
+
 			#S_align {
 		
 
 			}
 
-			h1 {
+			.Top {
 				font-size: 30px;
 				font-family: Monaco;
-				border: 5px;
-				color: #FFFF44;
-				font-weight: bold;
-				position: relative;
+				/*color: #FFFF44;*/
+				/*color: #00ffbb;*/
+				color: white;
 			}
 
 			body {
 				background: #ff5544;
 			}
+
+			.link:visited {
+				font-style: bold;
+				color: black;
+			}
+
+			.link:hover {
+				font-style: italic;
+				color: #00ffee;
+			}
+
+			.link {
+				font-style: bold;
+				color: black;
+				text-decoration: none;
+			}
+
+			#input_box {
+				border: solid 4px black;
+				border-style: outset;
+				margin: auto;	
+				padding: 15px;
+				width: 350px;
+				height: 215px;
+				background: white;
+				text-align: center; 
+				background: #CCFFFF;
+			}
+
+			.text_just {
+				text-align: left;
+				display: inline;
+			}
+
+			.align {
+				display: inline;
+			}
+
+			.sub_butt {
+				border: solid 4px black;
+				border-style: outset;
+				margin: auto;	
+				padding: 3px;
+				width: 80px;
+				background: white;
+				text-align: center;
+				font-weight: bold; 
+			}
+
 		</style>
 
 	</head>
@@ -47,10 +99,13 @@
 	<body>
 
 		<div class="Login_Page">
-		<h1> Welcome to Rebecca's Simple Syndication Reader </h1> <br /> 
-
-		<h2 id="sign_in">Sign In</h2>
+		<h1 class="Top">::: Welcome to R2S2 :::</h1> 
+		<!-- <h2 class="Top">::: R2S2 ::: </h2> -->	
+			<div id="input_box">
+			<h3 class="sign_in">Sign In</h3>
+		
 			<form action="/login" method="POST" name= "login">
+			
 			{{form.hidden_tag()}}
 
 			<!--     # include this every time you do a form -->
@@ -59,15 +114,24 @@
 			 <!-- begin error check -->
 
 			    <!-- Email and Password-->
+			   	
+
+			   	
+			   	<br />
+			   	<!-- make a table -->
 			   	<div class="inputs"> Email:
-					{{render_field(form.email)}} </div>
-				<div class="inputs"> Password:<br>
-					{{render_field(form.password)}}  </div>
+					{{form.email(size="35")}} </div>
+				<br /> 
+				<div class="inputs"> Password:
+					{{form.password(size="35")}}  </div>
+				
+
 			    <p> Remember Me: {{form.remember_me}} </p>
-				<p> <input type="submit" value="SUBMIT"></p>
-			 
+				<p> <input type="submit" value="SUBMIT" class="sub_butt"></p> 
+			 	</div>
 			</form>
-			<div id="sign_in"><a href="/new_user_registration" class="link">Sign-up for R squared S squared </a></div>
+			<br /> 
+			<div class="sign_in" class="link"><a href="/new_user_registration" class="link">Sign-up Here! </a></div>
 		</div>
 	</body>
 </html>

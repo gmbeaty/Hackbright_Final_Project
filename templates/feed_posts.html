@@ -9,10 +9,14 @@
 		
 		<style>
 			.Name_of_blog {
-				font-family: Verdana;
-				color: red;
-				font-size: 20px;
+				display: inline;
+				font-weight: bold;
 				}
+
+			.timestamping {
+				display: inline;
+				font-weight: bold;
+			}
 
 			#YO {
 				font-weight: bold;
@@ -33,14 +37,8 @@
 			#user {
 				font-size: 20px;
 				font-family: Impact;
-				color: purple;
+				color: #FFFF44;
 				/*float: right;*/
-			}
-
-			#Pusher_Cat {
-				border-width: 10px;
-				color: yellow;
-				border: solid;
 			}
 
 			.top_line_info {
@@ -52,7 +50,7 @@
 			.single_entry {
 				border: solid 5px black;
 				margin: 10px;
-				/*padding: 5px;*/
+				padding: 10px;
 				width: auto;
 				/*height: 150px;*/
 				float: center;
@@ -63,14 +61,98 @@
 			}
 
 			#title {
-				background: #FF3366 ;
+				color: black;
+				background: white;
+				font-size: 20px;
+				font-weight: bold;
 			}
 
 			#author {
-				background: #CCFF33;
+				display: inline;
+				font-weight: bold;
 			}
 
+			body {
+				background: #ff5544;
+			}
+
+			.welcome {
+				border: solid 4px black;
+				border-style: outset;
+				margin: auto;	
+				padding: 5px;
+				width: 600px;
+				background: white;
+				text-align: center; 
+				font-size: 25px;
+				font-family: Monaco;
+				font-weight: bold;
+				position: relative;
+			}
+
+			.subtitle_welcome {
+				border: solid 4px black;
+				border-style: outset;
+				margin: auto;	
+				padding: 5px;
+				width: 900px;
+				background: white;
+				text-align: center; 
+				font-size: 18px;
+				font-family: Monaco;
+				font-weight: bold;
+				position: relative;
+			}
+			.Subtitle {
+				color: green;
+				font-weight: bold;
+				font-size: 20px;
+			}
 			
+			.remove {
+				border: solid 4px black;
+				border-style: outset;
+				margin: auto;	
+				padding: 5px;
+				width: 200px;
+				background: white;
+				text-align: center;
+				font-style: bold;
+				color: black;
+				text-decoration: none;
+				font-family: Monaco;
+			}
+
+			.link {
+				font-style: bold;
+				color: black;
+				text-decoration: none;
+			}
+
+			.link:visited {
+				font-style: bold;
+				color: black;
+			}
+
+			.link:hover {
+				font-style: italic;
+				color: #00ffcc;
+			}
+
+			#full_post {
+				border: solid 3px black;
+				border-style: outset;
+				margin: auto;	
+				padding: 3px;
+				width: 175px;
+				background: white;
+				text-align: center; 
+				font-size: 14px;
+				font-family: Monaco;
+				font-weight: bold;
+				position: relative;
+			}
+
 		</style>
 	</head>
 
@@ -78,38 +160,39 @@
 		{% extends "base.html" %}
 		{% block content %}
 		<div id="centered">
-		<p id="user">Oh hai, {{user.user_name}}!</p>
-		
+		<!-- <p id="user">Oh hai, {{user.user_name}}!</p> -->
+		<br /> <br />
+		<p class="welcome"> All you need is {{all_post_info[0].feed.feed_title}} </p>
 		<br />
+
+		{% if all_post_info[0].feed.feed_subtitle %}
+		<div class="subtitle_welcome"> {{all_post_info[0].feed.feed_subtitle}} </div> <br />
+		{% endif %}
 
 		<div class="entry_block">
 			{% for post in all_post_info|sort(attribute='timestamp', reverse=True) %}
 			<div class="single_entry">
-				<div class="top_line_info">
-				
-				<div class="feed_info">
-				<h1 class="Name_of_Blog"> {{post.feed.feed_title}} </h1>
+			<br />
+				<div id="title"> {{post.title}} </div>
+				<br />
 
-				<!-- <div class="Subtitle"> {{post.feed.feed_subtitle}} </div> -->
-				</div>
-
-				<p> Date: {{post.timestamp}} </p> 
-
-				<div id="title"> Title: {{post.title}} </div>
-				
+				<p class="Name_of_Blog"> {{post.feed.feed_title}} || </p>
 				{% if post.author %}
-				<div id="author"> By: {{post.author}} <br /></div>
+				<div id="author"> by {{post.author}}</div>
+				{% else %}
+				<div id="author"> {{post.feed.feed_title}} Contributor </div>
 				{% endif %}
-
-				</div>
-
-				<p> Description: <br /> <br />{{post.content|safe}} <br /> <br /></p>
-
-			</div>
+				<p class="timestamping"> || {{post.timestamp}} </p> 
+				
+				<p><br />{{post.content|safe}} <br /> <br /></p>
+				<p id="full_post"><a href="{{post.url}}" class="link">VIEW FULL POST</a></p>
+				<br />
+					
+				</div>	
 
 			{% endfor %}
 
-			<div><a href="/remove_feed/{{feed_id}}">Remove this feed? </a></div>
+			<div class="remove"><a href="/remove_feed/{{feed_id}}" class="link">Remove this feed? </a></div>
 		</div>
 		
 		{% endblock %}

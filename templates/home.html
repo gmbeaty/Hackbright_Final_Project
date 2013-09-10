@@ -1,115 +1,148 @@
 <html>
 	<head>
 		<!-- <base target="_blank"> -->
-		{% if header %}
-		<title> {{header}} - microblog </title>
-		{% else %}
-		<title> Welcome to the posts in your microblog! </title>
-		{% endif %}
+		<title> Welcome home {{user.user_name}} </title>
 
 		<style>
 			.Name_of_blog {
-				font-family: Verdana;
-				color: red;
-				font-size: 20px;
+				display: inline;
+				font-weight: bold;
 				}
+
+			.timestamping {
+				display: inline;
+				font-weight: bold;
+			}
 
 			#YO {
 				font-weight: bold;
 				color: #CC00FF;
 			}
 
-		/*	.Subtitle {
-				color: green;
-				font-weight: bold;
-				font-size: 20px;
-			}*/
-
 		
 			#centered {
 				text-align: center;
 			}
 
-			#user {
-				font-size: 20px;
-				font-family: Impact;
-				color: purple;
-				/*float: right;*/
-			}
-
-			#Pusher_Cat {
-				border-width: 10px;
-				color: yellow;
-				border: solid;
-			}
-
-			.top_line_info {
-				font-weight: bold;
-				/*background: pink;*/
-
-			}
-
 			.single_entry {
-				border: solid 5px black;
-				margin: 10px;
-				/*padding: 5px;*/
-				width: auto;
+				border: solid 6px black;
+				margin: auto;
+				padding: 10px;
+				width: 1000px;
 				/*height: 150px;*/
 				float: center;
-				overflow: auto; 
+				/*overflow: auto; */
 				background: #CCFFFF;
 				font-family: Courier;
 
 			}
 
 			#title {
-				background: #FF3366 ;
+				color: black;
+				background: white;
+				font-size: 20px;
+				font-weight: bold;
 			}
 
 			#author {
-				background: #CCFF33;
+				display: inline;
+				font-weight: bold;
 			}
 
+			body {
+				background: #ff5544;
+			}
+
+			.welcome {
+				border: solid 4px black;
+				border-style: outset;
+				margin: auto;	
+				padding: 10px;
+				width: 250px;
+				background: white;
+				text-align: center; 
+				font-size: 25px;
+				font-family: Monaco;
+				font-weight: bold;
+				position: relative;
+			}
 			
+			#full_post {
+				border: solid 3px black;
+				border-style: outset;
+				margin: auto;	
+				padding: 3px;
+				width: 175px;
+				background: white;
+				text-align: center; 
+				font-size: 14px;
+				font-family: Monaco;
+				font-weight: bold;
+				position: relative;
+			}
+
+			.link {
+				font-style: bold;
+				color: black;
+				text-decoration: none;
+			}
+
+			.link:visited {
+				font-style: bold;
+				color: black;
+			}
+
+			.link:hover {
+				font-style: italic;
+				color: #00ffcc;
+			}
+
+
 		</style>
 	</head>
 
 	<body>
 		{% extends "base.html" %}
 		{% block content %}
+
 		<div id="centered">
-		<p id="user">Oh hai, {{user.user_name}}!</p>
 		
-		<br />
+		<!-- <p id="user">Oh hai, {{user.user_name}}!</p> -->
+		
+		<br /> 
+
+		<p class="welcome"> Welcome to R2S2 </p>
+
+		<br /> 
 		<div class="entry_block">
 			{% for post in post_list|sort(attribute='timestamp', reverse=True) %}
 			<div class="single_entry">
-				<div class="top_line_info">
+			<br />
+
+				<div id="title"> {{post.title}} </div>
+				<br />
+
 				
-				<div class="feed_info">
-				<h1 class="Name_of_Blog"> {{post.feed.feed_title}} </h1>
+					<p class="Name_of_Blog"> {{post.feed.feed_title}} || </p>
+					{% if post.author %}
+					<div id="author"> by {{post.author}}</div>
+					{% else %}
+					<div id="author"> {{post.feed.feed_title}} Contributor </div>
+					{% endif %}
+					<p class="timestamping"> || {{post.timestamp}} </p> 
 
-				<!-- <div class="Subtitle"> {{post.feed.feed_subtitle}} </div> -->
-				</div>
-
-				<p> Date: {{post.timestamp}} </p> 
-
-				<div id="title"> Title: {{post.title}} </div>
-				
-				{% if post.author %}
-				<div id="author"> By: {{post.author}} <br /></div>
-				{% endif %}
-
-				</div>
-
-				<p> Description: <br /> <br />{{post.content|safe}} <br /> <br /></p>
-				<p><a href="{{post.url}}">VIEW FULL POST</a></p>
-
-			</div>
+				<div class="feed_content">	
+					<p><br />{{post.content|safe}} <br /> </p>
+					<p id="full_post"><a href="{{post.url}}" class="link">VIEW FULL POST</a></p>
+					<br />
+					
+				</div>					
+				</div>	
+				<br /> 			
 
 			{% endfor %}
-		</div>
-		
+
+			</div>
 		{% endblock %}
 	</body>
 </html>

@@ -1,38 +1,71 @@
 <html>
 	<head>
 		<!-- This is jinja and accesses the info in views.py to get title and user info --> 
-		{% if title %}
-		<title> {{title}} - microblog </title>
-		{% else %}
-		<title> Welcome to the microblog! </title>
-		{% endif %}
+		<title> Add Feeds to R2S2 </title>
+		
 		
 
 		<style>
 			#index_main {
-				margin: 0px 350px;
-			}
-
-			h1, h2, h3 {
+				margin: 100px;
 				text-align: center;
-			}
 
-			#user {
-				font-size: 20px;
-				font-family: Impact;
-				color: purple;
-				text-align: center;
 			}
 
 			.Submit {
 				display: inline;
 				text-align: center;
+				border: solid 4px black;
+				border-style: outset;
+				margin: auto;	
+				padding: 3px;
+				width: 80px;
+				background: white;
+				font-weight: bold; 
 			}
 
 			#submitText {
 				text-align: center;
 				display: inline;
 			}
+
+			body {
+				background: #ff5544;
+			}
+
+			#submit_box {
+				border: solid 4px black;
+				border-style: outset;
+				margin: auto;	
+				padding: 15px;
+				width: 550px;
+				height: 120px;
+				background: white;
+				text-align: center; 
+				background: #CCFFFF;
+				font-family: Courier;
+				font-size: 20px;
+			}
+
+			.welcome {
+				border: solid 4px black;
+				border-style: outset;
+				margin: auto;	
+				padding: 5px;
+				width: 300px;
+				background: white;
+				text-align: center; 
+				font-size: 25px;
+				font-family: Monaco;
+				font-weight: bold;
+			}
+
+			#make_space {
+				margin: 50px;
+			}
+
+			
+
 		</style>
 	</head>
 
@@ -41,17 +74,27 @@
 	<!-- This is jinja and accesses the info in views.py to get title and user info as well as the base.html for the buttons and routing in the upper left --> 
 		{% extends "base.html" %}
 		{% block content %}
+		
 		<div id="index_main">
-		<p id="user">Would you like more feeds {{user.user_name}}??</p>
-		<img src="http://i.imgur.com/XZr1Ndn.gif" />
-		<h2>You are <a href="/home">{{title}}</a></h2>
+		<div id="submit_box">
+		
+		<p class="welcome"> Add Feeds to R2S2 </p>
+		
+		<!-- <p id="user">Would you like more feeds {{user.user_name}}??</p> -->
+		<!-- <img src="http://i.imgur.com/XZr1Ndn.gif" /> -->
 
 		<form action="/" method="POST" name= "url_submit">
 			{{form.hidden_tag()}}
 
 			<!--     # include this every time you do a form -->
-			    {% from "_formhelper.html" import render_field %}           
-			    <div class="Submit"> <div id="submitText">Submit URL:<div> {{render_field(form.url)}} <input type="submit" value="SUBMIT"></div>
+			    {% from "_formhelper.html" import render_field %}     
+			      
+			    <br /> 
+			    <div id="submitText"> Submit URL: {{form.url(value="http://", size="50")}} </div>
+
+			    <input type="submit" value="SUBMIT" class="Submit">
+		</div>
+		
 			  	
 		</form>
 		{% for name in feed_name %}

@@ -1,22 +1,25 @@
 <!-- extend from base layout -->
 <html>
 	<head>
+	<title> Join R2S2! </title>
 		<style>
 			.New_User_page {
 				text-align: center;
-				margin: 100px;
+				margin: 50px;
 				font-family: Courier;
 			}
 
 			.inputs {
 				/*display: inline;*/
 				font-size: 20px;
+				margin: 10px;
+				float: left;
 			}
 
 			#sign_in {
 				border: solid 4px black;
 				border-style: outset;
-				margin: 5px;
+				margin: auto;
 				padding: 5px;
 				width: 250px;
 				background: white;
@@ -32,7 +35,8 @@
 				font-size: 30px;
 				font-family: Monaco;
 				border: 5px;
-				color: #FFFF44;
+				/*color: #FFFF44;*/
+				color: white;
 				font-weight: bold;
 				position: relative;
 			}
@@ -40,6 +44,31 @@
 			body {
 				background: #ff5544;
 			}
+
+			#input_box {
+				border: solid 4px black;
+				border-style: outset;
+				margin: auto;	
+				padding: 15px;
+				width: 450px;
+				height: 285px;
+				background: white;
+				text-align: center; 
+				background: #CCFFFF;
+				text-align: center;
+			}
+
+			.sub_butt {
+				border: solid 4px black;
+				border-style: outset;
+				margin: 12px;	
+				padding: 3px;
+				width: 80px;
+				background: white;
+				text-align: center;
+				font-weight: bold; 
+			}
+
 		</style>
 
 	</head>
@@ -47,8 +76,8 @@
 	<body>
 
 		<div class="New_User_Page">
-		<h1> Fill out the below sections </h1> <br /> 
-		<h2 id="sign_in">Your Information</h2>
+		<h1> Fill out the below sections </h1> 
+
 			<form action="/new_user_registration" method="POST" name= "new_user">
 			{{form.hidden_tag()}}
 
@@ -57,17 +86,23 @@
 			    <form meth=post action="/new_user_registration">
 
 			    <!-- Email and Password-->
+			    <div id="input_box">
+			    <h2 id="sign_in">Your Information</h2> <br />
 			   	<div class="inputs"> Username:
-					{{render_field(form.username)}} </div>
+					{{form.username(size="30")}} </div>
+					
 			   	<div class="inputs"> Email:
-					{{render_field(form.email)}} </div>
-				<div class="inputs"> Password:<br>
-					{{render_field(form.password)}}  </div>
-			  
-			  	<div class="inputs"> Confirm password:<br>
-					{{render_field(form.confirm)}}  </div>
-				<p> <input type="submit" value="SUBMIT"></p>
+					{{form.email(size="30")}} </div>
+				
+				<div class="inputs"> Password:
+					{{form.password(size="30")}}  </div>
 			  	
+			  	<div class="inputs"> Confirm password: {{form.confirm(size="30")}}  </div> 
+			  	<br /> <br /> <br /> <br /> <br /> <br /> <br /> 
+				<p><br /> <input type="submit" value="SUBMIT" class="sub_butt"> </p>
+				
+			  	</div>
+
 				</form>
 
 		</div>

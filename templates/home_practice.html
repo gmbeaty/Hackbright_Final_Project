@@ -1,0 +1,145 @@
+<html>
+	<head>
+		<!-- <base target="_blank"> -->
+		{% if header %}
+		<title> {{header}} - microblog </title>
+		{% else %}
+		<title> Welcome to the posts in your microblog! </title>
+		{% endif %}
+		
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-wip/js/bootstrap.min.js"></script>
+
+		<script type="text/javascript" source="collapse.js"> </script>
+
+		<script type="text/javascript" source="transition.js"> </script>
+
+		<style>
+
+			.Name_of_blog {
+				font-family: Verdana;
+				color: red;
+				font-size: 20px;
+				}
+
+			#YO {
+				font-weight: bold;
+				color: #CC00FF;
+			}
+
+		/*	.Subtitle {
+				color: green;
+				font-weight: bold;
+				font-size: 20px;
+			}*/
+
+		
+			#centered {
+				text-align: center;
+			}
+
+			#user {
+				font-size: 20px;
+				font-family: Impact;
+				color: purple;
+				/*float: right;*/
+			}
+
+			#Pusher_Cat {
+				border-width: 10px;
+				color: yellow;
+				border: solid;
+			}
+
+			.top_line_info {
+				font-weight: bold;
+				/*background: pink;*/
+
+			}
+
+			.single_entry {
+				border: solid 5px black;
+				margin: 10px;
+				/*padding: 5px;*/
+				width: auto;
+				/*height: 150px;*/
+				float: center;
+				overflow: auto; 
+				background: #CCFFFF;
+				font-family: Courier;
+
+			}
+
+			#title {
+				background: #FF3366 ;
+			}
+
+			#author {
+				background: #CCFF33;
+			}
+
+			
+		</style>
+	</head>
+
+	<body>
+		{% extends "base.html" %}
+		{% block content %}
+
+		<div id="centered">
+		<p id="user">Oh hai, {{user.user_name}}!</p>
+		
+		<br />
+		<div class="entry_block">
+			{% for post in post_list|sort(attribute='timestamp', reverse=True) %}
+			<div class="single_entry">
+				
+				<div class="panel-group" id="accordion">
+	  				<div class="panel">
+	    				<div class="panel-heading">
+	      					<h3 class="panel-title">
+	       						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+				
+				<div class="top_line_info">
+				
+				<div class="feed_info">
+				<h1 class="Name_of_Blog"> {{post.feed.feed_title}} </h1>
+				</div>
+
+								</a>
+      						</h3>
+    					</div>
+
+    			<!--- start collapsable button -->
+    			<div id="collapseOne" class="panel-collapse collapse in">
+    				<div class="panel-body">
+
+				<p> Date: {{post.timestamp}} </p> 
+
+				<div id="title"> Title: {{post.title}} </div>
+				
+				{% if post.author %}
+				<div id="author"> By: {{post.author}} <br /></div>
+				{% endif %}
+				</div>
+				
+
+				<p> Description: <br /> <br />{{post.content|safe}} <br /> <br /></p>
+				<p><a href="{{post.url}}">VIEW FULL POST</a></p>
+
+					</div>
+    			</div>
+
+  					</div>
+  				</div>
+  				
+			</div>
+
+			{% endfor %}
+
+		</div>
+		</div>
+		{% endblock %}
+	</body>
+</html>
