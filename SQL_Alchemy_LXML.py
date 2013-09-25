@@ -6,7 +6,7 @@ from sqlalchemy import ForeignKey
 from lxml import etree
 import lxml.html
 import urllib2
-import datetime 
+import datetime
 from time import strptime, strftime
 from dateutil import parser as du_parser
 
@@ -21,7 +21,7 @@ Base.query = session.query_property()
 class User(Base):
     print "User table is running"
     __tablename__ = "users"
-    
+
     user_id = Column(Integer, primary_key = True)
     user_name = Column(String(64), nullable = True)
     email = Column(String(64), nullable = True)
@@ -37,7 +37,7 @@ class User(Base):
         return False
 
     def get_id(self):
-        return self.user_id 
+        return self.user_id
 
     feeds = relationship("User_Feed", backref=backref("users", order_by=user_id), uselist=True)
 
@@ -92,7 +92,7 @@ class Feed(Base):
         if post_title_test != []:
             contents = urllib2.urlopen(post_link).read().replace('dc:','')
             post_str = etree.fromstring(contents)
-            all_posts = post_str.xpath(".//channel/item") 
+            all_posts = post_str.xpath(".//channel/item")
 
             for post in all_posts:
                 _title = unicode(post.xpath(".//title/text()")[0])
@@ -104,14 +104,14 @@ class Feed(Base):
 
                 timestamp = str(post.xpath(".//pubDate/text()")[0])
                 datetime_timestamp = du_parser.parse(timestamp)
-                _pubDate = datetime_timestamp.replace(tzinfo=None) 
+                _pubDate = datetime_timestamp.replace(tzinfo=None)
                 _url = str(post.xpath(".//link/text()")[0])
 
 
                 try:
                     _post = Post(title = _title, author = _author, content = _description, timestamp = _pubDate, url = _url)
 
-                except: 
+                except:
                     _post = Post(title = _title, content = _description, timestamp = _pubDate, url = _url)
 
                 self.posts.append(_post)
@@ -121,7 +121,7 @@ class Feed(Base):
         #START ATOM USE CASE BLOCK
         else:
             post_str = str(post_link)
-            post_data_tree = lxml.html.parse(post_str) 
+            post_data_tree = lxml.html.parse(post_str)
             all_entries = post_data_tree.xpath(".//entry")
             # import pdb; pdb.set_trace()
 
@@ -137,15 +137,15 @@ class Feed(Base):
 
                 timestamp = str(entry.xpath(".//published/text()")[0])
                 datetime_timestamp = du_parser.parse(timestamp)
-                _pubDate = datetime_timestamp.replace(tzinfo=None) 
+                _pubDate = datetime_timestamp.replace(tzinfo=None)
 
                 _url = str(entry.xpath("//link[@rel='alternate']/@href")[0])
 
                 try:
                     _post = Post(title = _title, author = _author, content = _description, timestamp = _pubDate, url = _url)
 
-                except: 
-                 
+                except:
+
                     _post = Post(author = _author, content = _description, timestamp = _pubDate, url=_url)
 
                 self.posts.append(_post)
@@ -153,7 +153,7 @@ class Feed(Base):
         # END ATOM BLOCK
 
         return self.posts
-       
+
     def check_posts(self):
         all_posts = self.posts
 
