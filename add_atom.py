@@ -9,43 +9,22 @@ from dateutil import parser as du_parser
 # go out to feed_urls and look for new content
 # import pdb; pdb.set_trace()
 
-def create_post(each_item, feed_object):
-    # for element in use_this_to_populate:
-    # this is why you need the [0] or replace .xpath() with .find()
+def create_post(item, feed):
+    post = Post(feed_id=feed.feed_id)
 
-    post = Post(feed_id=feed_object.feed_id)
-
-    post.title = each_item.xpath(".//title/text()")[0]
-    creators = each_item.xpath(".//creator/text()")
+    post.title = item.xpath(".//title/text()")[0]
+    creators = item.xpath(".//creator/text()")
     if creators:
         post.author = unicode(creators[0])
 
-    post.content = each_item.xpath(".//description/text()")[0]
+    post.content = item.xpath(".//description/text()")[0]
 
-    post.timestamp = du_parser.parse(str(each_item.xpath(".//pubDate/text()")[0])).replace(tzinfo=None)
+    timestamp = str(item.xpath(".//pubDate/text()")[0])
+    post.timestamp = du_parser.parse(timestamp).replace(tzinfo=None)
 
-    post.url = str(each_item.xpath(".//link/text()")[0])
+    post.url = str(item.xpath(".//link/text()")[0])
 
     return post
-
-    # title = each_item.xpath(".//title/text()")[0]
-    # if each_item.xpath(".//creator/text()") != []:
-    #     author = unicode(each_item.xpath(".//creator/text()")[0])
-
-    # content = each_item.xpath(".//description/text()")[0]
-
-    # timestamp = str(each_item.xpath(".//pubDate/text()")[0])
-    # datetime_timestamp = du_parser.parse(timestamp)
-    # no_UTC = datetime_timestamp.replace(tzinfo=None)
-
-    # _url = str(each_item.xpath(".//link/text()")[0])
-
-    # try:
-    #     _post = Post(feed_id=feed_object.feed_id, title = title, author = author, content = content, timestamp = no_UTC, url = _url)
-    # except:
-    #     _post = Post(feed_id=feed_object.feed_id, title = title, content = content, timestamp = no_UTC, url = _url)
-
-    # return _post
 
 def main():
     feed_info = Feed.query.all()
@@ -74,30 +53,11 @@ def main():
                 for each_item in all_posts:
                     # insert new posts into post table as appropriate based on comparison
                     if each_item.find(".//title").text not in post_set:
-
-                        # for element in use_this_to_populate:
-                        # this is why you need the [0] or replace .xpath() with .find()
-
-                        title = each_item.xpath(".//title/text()")[0]
-                        if each_item.xpath(".//creator/text()") != []:
-                            author = unicode(each_item.xpath(".//creator/text()")[0])
-
-                        content = each_item.xpath(".//description/text()")[0]
-
-                        timestamp = str(each_item.xpath(".//pubDate/text()")[0])
-                        datetime_timestamp = du_parser.parse(timestamp)
-                        no_UTC = datetime_timestamp.replace(tzinfo=None)
-
-                        _url = str(each_item.xpath(".//link/text()")[0])
-
-                        try:
-                            _post = Post(feed_id=feed_object.feed_id, title = title, author = author, content = content, timestamp = no_UTC, url = _url)
-                        except:
-                            _post = Post(feed_id=feed_object.feed_id, title = title, content = content, timestamp = no_UTC, url = _url)
-                        session.add(_post)
-
+                        _post = create_post(each_item, feed_object)
+                        session.add(create_post(each_item, feed_object))
                     else:
                         break
+
                 session.commit()
                 print "WHILE LOOP HAS RUN"
 
