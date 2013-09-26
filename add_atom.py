@@ -1,4 +1,3 @@
-from time import time, sleep, strptime, strftime, mktime
 from SQL_Alchemy_LXML import *
 from lxml import etree
 import urllib2
@@ -100,7 +99,10 @@ def main():
                 session.commit()
                 print "WHILE LOOP HAS RUN"
 
-        sleep(90)
+        yield
 
 if __name__ == '__main__':
-    main()
+    import time
+
+    for _ in main():
+        time.sleep(90)
