@@ -53,7 +53,7 @@ def main(session):
                     # insert new posts into post table as appropriate based on comparison
                     if each_item.find(".//title").text not in post_set:
                         _post = create_post(each_item, feed_object)
-                        session.add(create_post(each_item, feed_object))
+                        session.add(_post)
                     else:
                         break
 
