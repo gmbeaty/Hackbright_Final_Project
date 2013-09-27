@@ -245,4 +245,8 @@ def remove_feed(feed_id=None):
     return render_template('remove_feed.html', feed_id=feed_id, user=user)
 
 if __name__ == '__main__':
+    import startengine
+
+    global session
+    session = startengine.create_session()
     app.run(debug=True)

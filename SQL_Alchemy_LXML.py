@@ -1,7 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy import ForeignKey
 from lxml import etree
 import lxml.html
@@ -10,11 +9,7 @@ import datetime
 from time import strptime, strftime
 from dateutil import parser as du_parser
 
-engine = create_engine("sqlite:///rss.db", echo=True)
-session = scoped_session(sessionmaker(bind=engine,autocommit=False,autoflush=False))
-
 Base = declarative_base()
-Base.query = session.query_property()
 
 ### Class declarations go here
 

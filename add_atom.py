@@ -25,7 +25,7 @@ def create_post(item, feed):
 
     return post
 
-def main():
+def main(session):
     feed_info = Feed.query.all()
 
     # while there are feeds in the DB
@@ -102,7 +102,9 @@ def main():
         yield
 
 if __name__ == '__main__':
+    import startengine
     import time
 
-    for _ in main():
-        time.sleep(90)
+    session = startengine.create_session()
+    for _ in main(session):
+        time.sleep(10)
